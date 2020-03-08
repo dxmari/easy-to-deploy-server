@@ -1,0 +1,28 @@
+{
+  "name": "easy-to-deploy-server",
+  "version": "1.0.0",
+  "description": "Quick deployment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "edeploy-server": "bin/edeploy-server"
+  },
+  "keywords": [
+    "edeploy",
+    "edeploy-server",
+    "edeployment",
+    "deployment",
+    "node",
+    "server",
+    "server deployment"
+  ],
+  "author": "Mariselvam",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "ora": "^4.0.3",
+    "shelljs": "^0.8.3"
+  }
+}
