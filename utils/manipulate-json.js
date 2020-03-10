@@ -14,7 +14,7 @@ module.exports = class ManipulateJSON {
                 this.filepath = null;
                 return;
             }
-            this.filepath = path.resolve(filepath);
+            this.filepath = path.resolve(__dirname, "../", filepath);
             this.json = fs.readFileSync(this.filepath, {
                 encoding: 'utf8'
             });
