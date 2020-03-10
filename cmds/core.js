@@ -6,11 +6,11 @@ var { setup, apps } = require('../config.json')
 
 const start = async (args) => {
     if (!setup) {
-        ManipulateJSON
+        let result = ManipulateJSON
             .path('./config.json')
             .set('setup', true)
             .save();
-
+        if (!result) return;
         try {
             await initSetup();
         } catch (error) {

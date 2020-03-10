@@ -151,11 +151,17 @@ module.exports = class ManipulateJSON {
     static async save() {
         if (this.json) {
             if (this.isModified) {
-                var cmd = `sudo echo '${JSON.stringify(this.json)}'>${this.filepath}`;
-                await exec(cmd)
-                // fs.writeFileSync(this.filepath, JSON.stringify(this.json), {
-                //     encoding: 'utf8'
-                // });
+                // var cmd = `sudo echo '${JSON.stringify(this.json)}'>${this.filepath}`;
+                // await exec(cmd)
+                try {
+                    fs.chmodSync(this.filepath, 0o775);
+                    fs.writeFileSync(this.filepath, JSON.stringify(this.json), {
+                        encoding: 'utf8'
+                    });
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
             }
             this.json = null;
             this.filepath = null;
