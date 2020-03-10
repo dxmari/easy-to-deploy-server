@@ -1,6 +1,6 @@
 {
   "name": "easy-to-deploy-server",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Quick deployment",
   "main": "index.js",
   "scripts": {

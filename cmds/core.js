@@ -18,6 +18,7 @@ const start = async (args) => {
         }
     }
     var rootPath = await exec('pwd');
+    rootPath = rootPath.replace(/\n/g, '');
     let isSaved = saveAppInfo(args.name, rootPath, args.host, args.port)
     if (isSaved) connectServer(args);
 }

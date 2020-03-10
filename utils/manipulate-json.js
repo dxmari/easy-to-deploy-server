@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const exec = require('../utils/exec')
+
 
 module.exports = class ManipulateJSON {
 
@@ -146,12 +148,14 @@ module.exports = class ManipulateJSON {
         }
         return this;
     }
-    static save() {
+    static async save() {
         if (this.json) {
             if (this.isModified) {
-                fs.writeFileSync(this.filepath, JSON.stringify(this.json), {
-                    encoding: 'utf8'
-                });
+                var cmd = `sudo echo '${JSON.stringify(this.json)}'>${this.filepath}`;
+                await exec(cmd)
+                // fs.writeFileSync(this.filepath, JSON.stringify(this.json), {
+                //     encoding: 'utf8'
+                // });
             }
             this.json = null;
             this.filepath = null;
