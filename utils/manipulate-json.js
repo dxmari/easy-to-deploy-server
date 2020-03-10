@@ -154,7 +154,6 @@ module.exports = class ManipulateJSON {
                 // var cmd = `sudo echo '${JSON.stringify(this.json)}'>${this.filepath}`;
                 // await exec(cmd)
                 try {
-                    fs.chmodSync(this.filepath, 0o775);
                     fs.writeFileSync(this.filepath, JSON.stringify(this.json), {
                         encoding: 'utf8'
                     });
