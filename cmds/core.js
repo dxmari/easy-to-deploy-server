@@ -1,3 +1,4 @@
+const path = require('path')
 const exec = require('../utils/exec')
 const shell = require('../utils/shell')
 const spinner = require('../utils/spinner')
@@ -26,19 +27,30 @@ const start = async (args) => {
 const connectServer = async (args) => {
     process.env.port = args.port;
     process.env.host = args.host;
-    await exec('pm2 start app.js --name ' + args.name);
-    exec('pm2 save');
+
+    let resp = await exec('pm2 jlist');
+    resp = JSON.parse(resp);
+    let idx = resp.findIndex(e => e.name === 'easy-deploy');
+    if (idx == -1) {
+        let fpath = path.resolve(__dirname, "../", './app.js');
+        console.log(fpath);
+        await exec(`pm2 start ${fpath} --name easy-deploy`);
+        exec('pm2 save');
+    }
+
 }
 
 const restart = async (args) => {
     process.env.port = args.port;
     process.env.host = args.host;
-    let pm2ID = await getPM2ID(args);
+    // let pm2ID = await getPM2ID(args);
+    let pm2ID = "easy-deploy";
     await shell('pm2 restart ' + pm2ID);
 }
 
 const show = async (args) => {
-    let pm2ID = await getPM2ID(args);
+    // let pm2ID = await getPM2ID(args);
+    let pm2ID = "easy-deploy";
     await shell('pm2 show ' + pm2ID);
 }
 
@@ -67,12 +79,14 @@ const getPM2ID = async (args) => {
 }
 
 const logs = async (args) => {
-    let pm2ID = await getPM2ID(args);
+    // let pm2ID = await getPM2ID(args);
+    let pm2ID = "easy-deploy";
     await shell('pm2 logs ' + pm2ID + (args.lines ? ' --lines ' + args.lines : ''));
 }
 
 const stop = async (args) => {
-    let pm2ID = await getPM2ID(args);
+    // let pm2ID = await getPM2ID(args);
+    let pm2ID = "easy-deploy";
     await exec('pm2 stop ' + pm2ID);
 }
 
@@ -152,9 +166,10 @@ const deleteApp = async (args) => {
             }
         })
         .save()
-    await exec('pm2 delete ' + args.param)
-    exec('pm2 save --force');
-
+    if(args.param === 'easy-deploy'){
+        await exec('pm2 delete ' + args.param)
+        exec('pm2 save --force');
+    }
 }
 
 const config = async (args) => {

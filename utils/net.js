@@ -69,7 +69,7 @@ class NetServer {
                         }
                     })
                 var cmd = 'cd ' + app.rootPath;
-                if (!app.script) {
+                if (app.script) {
                     console.log(cmd + ' && ' + app.script);
                     try {
                         let response = await exec(cmd + ' && ' + app.script);
