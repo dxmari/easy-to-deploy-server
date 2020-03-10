@@ -96,7 +96,7 @@ const initSetup = () => {
 }
 
 const checkPm2Exists = () => {
-    return exec('pm2');
+    return exec('pm2 -v');
 }
 
 const saveAppInfo = (name, rootPath, host = "0.0.0.0", port = 61337) => {
