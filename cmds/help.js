@@ -6,14 +6,14 @@ const menus = {
                   --host .......... the host name to run the application
                   --port .......... the port number to run the application
 
-            edeploy restart .......... to restart the application
+            edeploy restart [app name or id].......... to restart the application
                   --host .......... the host name to run the application
                   --port .......... the port number to run the application
 
             edeploy show [command or [app name or id]].......... to show the application info
                   --all .......... to show list of all applications
 
-            edeploy stop .......... to stop the application
+            edeploy stop [app name or id].......... to stop the application
             edeploy delete [app name or id].......... to delete the application
             version ........... show package version
             help .............. show help menu for a command`,
@@ -23,12 +23,25 @@ const menus = {
                   --host .......... the host name to run the application
                   --port .......... the port number to run the application
                   `,
-      delete :`
+      restart: `
+            edeploy restart [name].......... to start the application
+                  --host .......... the host name to run the application
+                  --port .......... the port number to run the application
+                  `,
+      show: `
+            edeploy show [command or [app name or id]].......... to show the application info
+            --all .......... to show list of all applications`,
+
+      config: `
+            edeploy config [name].......... to change the configuration of the application
+                  --script .......... script which is run during the deployment.
+                  `,
+      stop: `
+            edeploy stop [app name or id].......... to stop the application
+      `,
+      delete: `
             edeploy delete [app name or id].......... to delete the application
       `,
-      show :`
-            edeploy show [app name or id].......... to show the application info
-      `
 }
 
 

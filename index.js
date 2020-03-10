@@ -1,6 +1,5 @@
 const minimist = require('minimist');
-const { show, start, restart, stop, deleteApp, logs } = require('./cmds/core')
-const { setup } = require('./cmds/setup')
+const { show, start, restart, stop, deleteApp, logs, config } = require('./cmds/core')
 const error = require('./utils/error-handle')
 module.exports = () => {
     const args = minimist(process.argv.slice(2))
@@ -31,6 +30,16 @@ module.exports = () => {
             args['name'] = args._[1];
             start(args)
             break
+
+        case 'config':
+            if (!args._[1]) {
+                require('./cmds/help')(args)
+                break;
+            }
+            args['param'] = args._[1];
+            config(args)
+            break
+
         case 'restart':
             if (args._[1] !== 0 && !args._[1]) {
                 require('./cmds/help')(args)

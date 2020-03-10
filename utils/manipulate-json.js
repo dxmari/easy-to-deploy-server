@@ -6,7 +6,6 @@ module.exports = class ManipulateJSON {
     constructor() {
         this.isModified = false;
     }
-
     static path(filepath) {
         try {
             this.isModified = false;
@@ -26,8 +25,8 @@ module.exports = class ManipulateJSON {
         }
         return this;
     }
-
     static get(param) {
+        if (!param) return this.json;
         if (typeof param === 'string') {
             if (this.json) {
                 return this.json[param];
@@ -105,11 +104,48 @@ module.exports = class ManipulateJSON {
                         delete this.json[a.key];
                     }
                 }
+            } else if (a.type == 'modify') {
+                if (a.cond) {
+                    if (Array.isArray(this.json[a.key]) && Object.keys(a.data).length > 0) {
+                        let condition = false;
+                        var $or = a.cond.$or || [];
+                        var $and = a.cond.$and || [];
+                        let idx = this.json[a.key].findIndex(e => {
+                            $or.forEach(or => {
+                                for (let key in or) {
+                                    if (key in e) {
+                                        condition = condition || e[key] === or[key];
+                                    }
+                                }
+                            })
+                            $and.forEach(or => {
+                                for (let key in or) {
+                                    if (key in e) {
+                                        condition = condition && e[key] === or[key];
+                                    }
+                                }
+                            })
+                            return condition;
+                        });
+                        if (idx >= 0) {
+                            this.isModified = true;
+                            for (let param in a.data) {
+                                this.json[a.key][idx][param] = a.data[param];
+                            }
+                        }
+                    }
+                } else {
+                    if (a.key in this.json) {
+                        this.isModified = true;
+                        for (let param in a.data) {
+                            this.json[a.key][param] = a.data[param];
+                        }
+                    }
+                }
             }
         }
         return this;
     }
-
     static save() {
         if (this.json) {
             if (this.isModified) {

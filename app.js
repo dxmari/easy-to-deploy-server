@@ -5,4 +5,5 @@ const args = {
     port: (process.env.port == 'undefined' || !process.env.port) ? 61337 : process.env.port
 };
 console.log(args);
+// NetServer.emitter.on('Received', (data) => console.log('Emitter: ' + data))
 NetServer.connect(args);

@@ -153,6 +153,30 @@ const deleteApp = async (args) => {
         .save()
     await exec('pm2 delete ' + args.param)
     exec('pm2 save --force');
+
+}
+
+const config = async (args) => {
+    var param = args.param;
+    delete args.param;
+    delete args._;
+    if (Object.keys(args).length > 0) {
+        ManipulateJSON
+            .path('./config.json')
+            .set({
+                key: 'apps',
+                type: 'modify',
+                data: args,
+                cond: {
+                    $or: [{
+                        name: param
+                    }, {
+                        id: param
+                    }]
+                }
+            })
+            .save()
+    }
 }
 
 module.exports = {
@@ -161,5 +185,6 @@ module.exports = {
     show: show,
     stop: stop,
     deleteApp: deleteApp,
-    logs: logs
+    logs: logs,
+    config: config
 }
